@@ -30,9 +30,9 @@ export class TasksController {
   @Delete(':taskId')
   async delete(
     @Param('taskId') taskId: string,
-    @Body('userId') userId: string,
+  
   ) {
-    return this.tasksService.delete(taskId, userId);
+    return this.tasksService.delete(taskId);
   }
 
   @UseGuards(JwtAuthGuard)

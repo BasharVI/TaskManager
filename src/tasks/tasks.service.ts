@@ -16,8 +16,8 @@ export class TasksService {
     return this.taskModel.find({ user: userId }).exec();
   }
 
-  async delete(taskId: string, userId: string): Promise<any> {
-    return this.taskModel.deleteOne({ _id: taskId, user: userId }).exec();
+  async delete(taskId: string): Promise<any> {
+    return this.taskModel.deleteOne({ _id: taskId }).exec();
   }
 
   async toggleComplete(taskId: string, userId: string): Promise<Task> {
@@ -25,6 +25,6 @@ export class TasksService {
       .findOne({ _id: taskId, user: userId })
       .exec();
     task.completed = !task.completed;
-    return task.save();
+    return task.save(); 
   }
 }
