@@ -6,6 +6,7 @@ import {
   Param,
   Body,
   UseGuards,
+  Request
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
@@ -16,14 +17,14 @@ export class TasksController {
 
   @UseGuards(JwtAuthGuard)
   @Post()
-  async create(@Body('title') title: string, @Body('userId') userId: string) {
-    return this.tasksService.create(title, userId);
+  async create(@Body('title') title: string, @Request() req) {
+    return this.tasksService.create(title, req.user.id);
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get(':userId')
-  async findAll(@Param('userId') userId: string) {
-    return this.tasksService.findAll(userId);
+  @Get()
+  async findAll(@Request() req:any) {
+    return this.tasksService.findAll(req.user.id);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -35,12 +36,11 @@ export class TasksController {
     return this.tasksService.delete(taskId);
   }
 
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Post('toggle/:taskId')
   async toggleComplete(
-    @Param('taskId') taskId: string,
-    @Body('userId') userId: string,
+    @Param('taskId') taskId: string
   ) {
-    return this.tasksService.toggleComplete(taskId, userId);
+    return this.tasksService.toggleComplete(taskId);
   }
 }

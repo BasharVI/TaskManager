@@ -20,9 +20,9 @@ export class TasksService {
     return this.taskModel.deleteOne({ _id: taskId }).exec();
   }
 
-  async toggleComplete(taskId: string, userId: string): Promise<Task> {
+  async toggleComplete(taskId: string): Promise<Task> {
     const task = await this.taskModel
-      .findOne({ _id: taskId, user: userId })
+      .findOne({ _id: taskId })
       .exec();
     task.completed = !task.completed;
     return task.save(); 
